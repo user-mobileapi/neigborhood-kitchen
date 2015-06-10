@@ -1,0 +1,38 @@
+{
+  "name": "neighborhood-kitchen",
+  "version": "0.0.1",
+  "description": "this API will provide recipe services",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "a127-magic": "^0.10.0",
+    "express": "3.x.x",
+    "redis": "^0.12.1",
+    "volos-analytics-apigee": "",
+    "volos-analytics-common": "",
+    "volos-analytics-memory": "",
+    "volos-cache-apigee": "",
+    "volos-cache-memory": "",
+    "volos-cache-redis": "",
+    "volos-oauth-apigee": "",
+    "volos-oauth-redis": "",
+    "volos-quota-apigee": "",
+    "volos-quota-memory": "",
+    "volos-quota-redis": "",
+    "volos-spikearrest-memory": ""
+  },
+  "devDependencies": {
+    "should": "4.4.x",
+    "supertest": "0.15.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "api": {
+    "name": "neighborhood-kitchen",
+    "basePath": "/api",
+    "main": "app.js"
+  }
+}

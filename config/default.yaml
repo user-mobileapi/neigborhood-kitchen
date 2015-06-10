@@ -1,0 +1,15 @@
+validateResponse: false
+
+server:
+  port: 4000
+docEndpoints:
+  raw: /swagger        # expose the swagger JSON and YAML at this endpoint
+#  docs: /swagger-docs  # expose swagger-docs browser UI on this endpoint
+ui:
+  swaggerUi: '/services/ui'
+  apiDocs: '/services/spec'
+db:
+  redisServer: '127.0.0.1'
+  port: 6379
+
+

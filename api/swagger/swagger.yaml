@@ -1,0 +1,116 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Services
+# during dev, should point to your local machine
+# basePath prefixes all resource paths 
+basePath: /Services
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+x-a127-config: {}
+x-a127-services:
+    cache:
+      provider: volos-cache-memory
+      options:
+        name: mycache
+        ttl: 60000
+paths:
+  /recipes:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: recipe
+    x-a127-apply:
+      cache: {}
+    post:
+
+      description: create a recipe
+      summary: create a recipe
+      # used as the method name of the controller
+      operationId: createRecipe
+      tags:
+        - "Recipes"
+      parameters:
+        - name: body
+          in: body
+          description: requestbody
+          required: true
+          schema:
+            $ref: "#/definitions/Recipe"
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Recipe"
+        # responses may fall through to errors
+        default:
+          description: Error
+  /users:
+      # binds a127 app logic to a route
+      x-swagger-router-controller: users
+      x-a127-apply: {}
+      post:
+
+        description: create  login account
+        summary: create  login account
+        # used as the method name of the controller
+        operationId: createLogin
+        tags:
+          - "Users"
+
+
+        responses:
+          "200":
+            description: Success
+
+          # responses may fall through to errors
+          default:
+            description: Error
+# complex objects have schema definitions
+definitions:
+  Recipe:
+
+    properties:
+      id:
+        type: number
+        default: 0
+      name:
+        type: string
+        default: "Source soup"
+      category:
+        $ref: "#/definitions/RecipeCategory"
+
+      rank:
+        type: string
+        description: overall star rank
+      recipeCountry:
+            $ref: "#/definitions/Country"
+
+  RecipeCategory:
+      enum:
+        - Soup
+        - Entree
+        - Salad
+        - Dessert
+  Country:
+      type: string
+      enum:
+        - United States of America
+        - Cambodia
+        - India
+        - Thai
+        - Vietnam
+        - China
+      default: "United States of America"
+
+
+
+
