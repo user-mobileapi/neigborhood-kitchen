@@ -3,7 +3,7 @@ var command = require ('./db-command.js');
 var redis = require('redis');
 var config = require('../config/default.yaml')
 var client = redis.createClient(config.db.port,config.db.redisServer);
-var util = require('util')._extend;
+
 
 var callback = function (err, data){
     if(err){

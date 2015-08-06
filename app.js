@@ -31,14 +31,14 @@ a127.init(function(config) {
   });
 
 
-  var resObject = {
-    "id": 0,
-    "name": "Source soup2",
-    "category": "soup",
-    "rank": "NA",
-    "recipeCountry": "Cambodia"
-  }
-   util.format('format : %j',db.createRecipe('recipeId',resObject));
+  //var resObject = {
+  //  "id": 0,
+  //  "name": "Source soup2",
+  //  "category": "soup",
+  //  "rank": "NA",
+  //  "recipeCountry": "Cambodia"
+  //}
+  // util.format('format : %j',db.createRecipe('recipeId',resObject));
 
   //var callback  = function(err,data){
   //  if(err)

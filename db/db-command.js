@@ -18,7 +18,8 @@ function createCommand(keyName,req){
                     if (replyGet == null) // first time that has no object in db
                         lastId = 0;
                     else lastId = (JSON.parse(replyGet)).id;
-
+                    //var resource= req.a127.resource('dbCache');
+                    //console.log('resource '+resource);
                     client.incr(lastId, function (errIncrement, replyIncrement) {
                         if (!errIncrement) {
                             req.id = replyIncrement;
@@ -28,12 +29,16 @@ function createCommand(keyName,req){
                             client.set(keyName + '-' + req.id, JSON.stringify(req), function (err, reply) {
 
                                 if (!err)
-                                    //return;
-                                    util.format('Here you are %j',getCommand(keyName,req.id));
+                                {
+                                    console.log("create success");
+
+
+                                }
 
                                 else {
-                                    //return JSON.parse(err);
+
                                     console.log("error while creating the object. more detail: " + err);
+                                    return JSON.parse(err);
                                 }
                                 util.format('Here you are %j',getCommand(keyName,req.id));
                             });

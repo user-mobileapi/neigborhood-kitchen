@@ -18,7 +18,7 @@ produces:
   - application/json
 x-a127-config: {}
 x-a127-services:
-    cache:
+    dbCache:
       provider: volos-cache-memory
       options:
         name: mycache
@@ -28,7 +28,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: recipe
     x-a127-apply:
-      cache: {}
+      dbCache: {}
     post:
 
       description: create a recipe
@@ -75,7 +75,111 @@ paths:
           default:
             description: Error
 # complex objects have schema definitions
+  /testExtendModel:
+      # binds a127 app logic to a route
+      x-swagger-router-controller: test
+      x-a127-apply:
+        dbCache: {}
+      post:
+
+        description: test post
+        summary: test post
+        # used as the method name of the controller
+        operationId: getTest
+        tags:
+          - "test"
+        parameters:
+          - name: method
+            in: header
+            description: test
+            required: true
+            type: string
+            default: "DELETE"
+          - name: body
+            in: body
+            description: requestbody
+            required: true
+            schema:
+              $ref: "#/definitions/REMOTE_START"
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/Recipe"
+          # responses may fall through to errors
+          default:
+            description: Error
+
 definitions:
+  REMOTE_COMMAND:
+      discriminator: commandType
+      properties:
+        commandType:
+          enum:
+            - "REMOTE_DOOR_LOCK"
+            - "REMOTE_DOOR_UNLOCK"
+            - "REMOTE_START"
+            - "REMOTE_HORNBLOW_LIGHTFLASH"
+            - "PERSONAL_DATA_WIPE"
+        credentials:
+          type: "string"
+        delay:
+          type: "number"
+          minimum: 0
+
+
+      required:
+        - commandType
+        - credentials
+
+  REMOTE_DOOR_LOCK:
+      allOf:
+        - $ref: "#/definitions/REMOTE_COMMAND"
+      additionalProperties: false
+
+  REMOTE_DOOR_UNLOCK:
+      allOf:
+        - $ref: "#/definitions/REMOTE_COMMAND"
+      additionalProperties: false
+
+  PERSONAL_DATA_WIPE:
+      allOf:
+        - $ref: "#/definitions/REMOTE_COMMAND"
+      additionalProperties: false
+
+  REMOTE_START:
+    allOf:
+      - $ref: "#/definitions/REMOTE_COMMAND"
+      - properties:
+          options:
+            properties:
+              mode:
+                enum:
+                  - "REMOTE_START"
+                  - "REMOTE_STOP"
+                  - "TEMP_FUEL_CHECK"
+            required:
+              - mode
+        required:
+          - options
+        additionalProperties: false
+
+  REMOTE_HORNBLOW_LIGHTFLASH:
+    allOf:
+      - $ref: "#/definitions/REMOTE_COMMAND"
+      - properties:
+          options:
+            properties:
+              mode:
+                enum:
+                  - "HORN_LIGHT"
+                  - "HORN_ONLY"
+                  - "LIGHT_ONLY"
+            required:
+              - mode
+        required:
+          - options
+        additionalProperties: false
   Recipe:
 
     properties:
